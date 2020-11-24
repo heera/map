@@ -3,28 +3,70 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 version: 2
+
 jobs:
-  build:
+  php71:
     docker:
       - image: circleci/php:7.1
-      - image: circleci/php:7.2
-      - image: circleci/php:7.3
-      - image: circleci/php:7.4
-
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run: composer install -n --prefer-dist
-
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-
       - run: ./vendor/bin/phpunit
+  php72:
+    docker:
+      - image: circleci/php:7.2
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run: ./vendor/bin/phpunit
+  php73:
+    docker:
+      - image: circleci/php:7.3
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run: ./vendor/bin/phpunit
+  php74:
+    docker:
+      - image: circleci/php:7.4
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run: ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - php71
+      - php72
+      - php73
+      - php74
