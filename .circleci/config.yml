@@ -61,6 +61,20 @@ jobs:
           paths:
             - ./vendor
       - run: ./vendor/bin/phpunit
+  php80:
+    docker:
+      - image: circleci/php:8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - run: ./vendor/bin/phpunit
 
 workflows:
   version: 2
@@ -70,3 +84,4 @@ workflows:
       - php72
       - php73
       - php74
+      - php80
