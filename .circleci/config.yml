@@ -5,83 +5,67 @@
 version: 2
 
 jobs:
-  php71:
+  "php-7.1":
     docker:
       - image: circleci/php:7.1
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-      - run: composer install -n --prefer-dist
+            - deps-{{ checksum "composer.json" }}
+      - run: composer update -n --prefer-dist
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
+          key: deps-{{ checksum "composer.json" }}
+          paths: [./vendor]
       - run: ./vendor/bin/phpunit
-  php72:
+      - run: ./vendor/bin/php-coveralls -o coveralls.json -x coverage.xml
+  "php-7.2":
     docker:
       - image: circleci/php:7.2
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-      - run: composer install -n --prefer-dist
+            - deps-{{ checksum "composer.json" }}
+      - run: composer update -n --prefer-dist
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
+          key: deps-{{ checksum "composer.json" }}
+          paths: [./vendor]
       - run: ./vendor/bin/phpunit
-  php73:
+      - run: ./vendor/bin/php-coveralls -o coveralls.json -x coverage.xml
+  "php-7.3":
     docker:
       - image: circleci/php:7.3
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-      - run: composer install -n --prefer-dist
+            - deps-{{ checksum "composer.json" }}
+      - run: composer update -n --prefer-dist
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
+          key: deps-{{ checksum "composer.json" }}
+          paths: [./vendor]
       - run: ./vendor/bin/phpunit
-  php74:
+      - run: ./vendor/bin/php-coveralls -o coveralls.json -x coverage.xml
+  "php-7.4":
     docker:
       - image: circleci/php:7.4
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-      - run: composer install -n --prefer-dist
+          keys: [deps-{{ checksum "composer.json" }}]
+      - run: composer update -n --prefer-dist
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
+          key: deps-{{ checksum "composer.json" }}
+          paths: [./vendor]
       - run: ./vendor/bin/phpunit
-  php80:
-    docker:
-      - image: circleci/php:8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
-      - run: composer install -n --prefer-dist
-      - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
-          paths:
-            - ./vendor
-      - run: ./vendor/bin/phpunit
+      - run: ./vendor/bin/php-coveralls -o coveralls.json -x coverage.xml
 
 workflows:
   version: 2
-  build_and_test:
+  unittest:
     jobs:
-      - php71
-      - php72
-      - php73
-      - php74
-      - php80
+      - "php-7.1"
+      - "php-7.2"
+      - "php-7.3"
+      - "php-7.4"
