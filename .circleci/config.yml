@@ -53,7 +53,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [deps-{{ checksum "composer.json" }}]
+          keys:
+            - deps-{{ checksum "composer.json" }}
       - run: composer update -n --prefer-dist
       - save_cache:
           key: deps-{{ checksum "composer.json" }}
