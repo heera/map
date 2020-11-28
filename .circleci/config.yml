@@ -7,8 +7,9 @@ version: 2
 jobs:
   "php-7.1":
     docker:
-      - image: cimg/php:7.1
+      - image: circleci/php:7.1
     steps:
+      - run: php -m
       - checkout
       - restore_cache:
           keys:
@@ -22,6 +23,7 @@ jobs:
     docker:
       - image: cimg/php:7.2
     steps:
+      - run: php -m
       - checkout
       - restore_cache:
           keys:
@@ -35,6 +37,7 @@ jobs:
     docker:
       - image: cimg/php:7.3
     steps:
+      - run: php -m
       - checkout
       - restore_cache:
           keys:
@@ -48,6 +51,7 @@ jobs:
     docker:
       - image: cimg/php:7.4
     steps:
+      - run: php -m
       - checkout
       - restore_cache:
           keys:
