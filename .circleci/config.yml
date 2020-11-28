@@ -51,6 +51,7 @@ jobs:
     docker:
       - image: cimg/php:7.4
     steps:
+      - sudo apt-get install -y php-intl php-xdebug
       - run: php -m
       - checkout
       - restore_cache:
@@ -67,7 +68,4 @@ workflows:
   version: 2
   unittest:
     jobs:
-      - "php-7.1"
-      - "php-7.2"
-      - "php-7.3"
       - "php-7.4"
