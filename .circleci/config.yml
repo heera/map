@@ -51,7 +51,7 @@ jobs:
     docker:
       - image: cimg/php:7.4
     steps:
-      - run: sudo apt-get install -y php-intl php-xdebug
+      - run: sudo apt-get install -y php7.4-intl php7.4-xdebug
       - run: php -m
       - checkout
       - restore_cache:
